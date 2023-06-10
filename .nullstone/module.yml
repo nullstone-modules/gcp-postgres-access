@@ -1,0 +1,16 @@
+org_name: nullstone
+name: gcp-postgres-access
+friendly_name: PostgreSQL Access
+description: Grants an application access to a newly-created postgres database managed by GCP
+category: capability
+subcategory: datastores
+provider_types:
+    - gcp
+platform: postgres
+subplatform: ""
+type: ""
+appCategories:
+    - container
+    - serverless
+    - server
+is_public: true
