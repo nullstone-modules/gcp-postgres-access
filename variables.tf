@@ -14,8 +14,19 @@ variable "database_name" {
   default     = ""
 }
 
+// We are using ns_env_variables to interpolate database_name
+data "ns_env_variables" "db_name" {
+  input_env_variables = tomap({
+    NULLSTONE_STACK = local.stack_name
+    NULLSTONE_APP   = local.block_name
+    NULLSTONE_ENV   = local.env_name
+    DATABASE_NAME   = coalesce(var.database_name, local.block_name)
+  })
+  input_secrets = tomap({})
+}
+
 locals {
   username       = local.resource_name
-  database_name  = coalesce(var.database_name, local.block_name)
+  database_name  = data.ns_env_variables.db_name.env_variables["DATABASE_NAME"]
   database_owner = local.database_name
 }
