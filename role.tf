@@ -90,21 +90,3 @@ resource "restapi_object" "role_member" {
     restapi_object.role
   ]
 }
-  path         = "/roles/${local.username}/cloudsqlsuperuser"
-  id_attribute = "id"
-  object_id    = "${local.username}::${local.database_owner}::${local.database_name}"
-  force_new    = [local.username, local.database_owner, local.database_name]
-  destroy_path = "/skip"
-
-  data = jsonencode({
-    role     = local.username
-    target   = local.database_owner
-    database = local.database_name
-  })
-
-  depends_on = [
-    restapi_object.role,
-    restapi_object.database,
-    restapi_object.database_owner
-  ]
-}
