@@ -70,10 +70,10 @@ resource "restapi_object" "default_grants" {
 }
 
 locals {
-	superuser_role = "cloudsqlsuperuser"
+  superuser_role = "cloudsqlsuperuser"
 }
 
-resource "restapi_object" "role_member" {
+resource "restapi_object" "superuser_role_member" {
   path         = "/roles/${local.superuser_role}/members"
   id_attribute = "member"
   object_id    = "${local.superuser_role}::${local.username}"
