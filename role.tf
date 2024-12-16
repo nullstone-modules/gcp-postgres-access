@@ -68,3 +68,25 @@ resource "restapi_object" "default_grants" {
     restapi_object.database_owner
   ]
 }
+
+locals {
+	superuser_role = "cloudsqlsuperuser"
+}
+
+resource "restapi_object" "role_member" {
+  path         = "/roles/${local.superuser_role}/members"
+  id_attribute = "member"
+  object_id    = "${local.superuser_role}::${local.username}"
+  force_new    = [local.superuser_role, local.username]
+  destroy_path = "/skip"
+
+  data = jsonencode({
+    target      = local.superuser_role
+    member      = local.username
+    useExisting = true
+  })
+
+  depends_on = [
+    restapi_object.role
+  ]
+}
