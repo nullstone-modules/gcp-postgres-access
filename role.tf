@@ -69,7 +69,27 @@ resource "restapi_object" "default_grants" {
   ]
 }
 
-resource "restapi_object" "cloudsqlsuperuser" {
+locals {
+	superuser_role = "cloudsqlsuperuser"
+}
+
+resource "restapi_object" "role_member" {
+  path         = "/roles/${local.superuser_role}/members"
+  id_attribute = "member"
+  object_id    = "${local.superuser_role}::${local.username}"
+  force_new    = [local.superuser_role, local.username]
+  destroy_path = "/skip"
+
+  data = jsonencode({
+    target      = local.superuser_role
+    member      = local.username
+    useExisting = true
+  })
+
+  depends_on = [
+    restapi_object.role
+  ]
+}
   path         = "/roles/${local.username}/cloudsqlsuperuser"
   id_attribute = "id"
   object_id    = "${local.username}::${local.database_owner}::${local.database_name}"
