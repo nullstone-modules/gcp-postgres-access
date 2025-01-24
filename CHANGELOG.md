@@ -1,3 +1,6 @@
+# 0.0.7 (Jan 24, 2025)
+* Upgrade terraform providers.
+
 # 0.0.6 (Dec 16, 2024)
 * Added the cloudsqlsuperuser role so that the user can enable extensions, create event triggers, replication users, and create replication publications and subscriptions.
 
