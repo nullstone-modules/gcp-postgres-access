@@ -1,5 +1,8 @@
+data "google_client_config" "this" {}
+
 provider "google" {
   alias                       = "invoker"
+  access_token                = data.google_client_config.this.access_token
   impersonate_service_account = local.db_admin_invoker.email
 }
 
