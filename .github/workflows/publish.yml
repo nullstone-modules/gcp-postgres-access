@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Set up Nullstone
         uses: nullstone-io/setup-nullstone-action@v0
@@ -30,4 +30,4 @@ jobs:
       - id: publish
         name: Publish
         run: |
-          nullstone modules publish --version=${{ env.MODULE_VERSION }} --include=vpc/*.tf
+          nullstone modules publish --version=${{ env.MODULE_VERSION }}
