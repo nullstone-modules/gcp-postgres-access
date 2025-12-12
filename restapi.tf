@@ -1,6 +1,6 @@
 provider "google" {
-  alias       = "invoker"
-  credentials = base64decode(local.db_admin_invoker.private_key)
+  alias                       = "invoker"
+  impersonate_service_account = local.db_admin_invoker.email
 }
 
 data "google_service_account_id_token" "invoker" {
