@@ -1,14 +1,6 @@
-data "google_client_config" "this" {}
-
-provider "google" {
-  alias                       = "invoker"
-  access_token                = data.google_client_config.this.access_token
-  impersonate_service_account = local.db_admin_invoker.email
-}
-
 data "google_service_account_id_token" "invoker" {
-  target_audience = coalesce(local.db_admin_func_url, "https://missing-db-admin-url")
-  provider        = google.invoker
+  target_audience        = coalesce(local.db_admin_func_url, "https://missing-db-admin-url")
+  target_service_account = local.db_admin_invoker.email
 }
 
 provider "restapi" {
