@@ -28,5 +28,5 @@ data "ns_env_variables" "db_name" {
 locals {
   username       = local.resource_name
   database_name  = data.ns_env_variables.db_name.env_variables["DATABASE_NAME"]
-  database_owner = local.database_name
+  database_owner = replace(local.database_name, "postgres", "postgres_owner")
 }
