@@ -6,7 +6,7 @@ resource "restapi_object" "database_owner" {
   destroy_path = "/skip"
 
   data = jsonencode({
-    name        = local.database_name
+    name        = local.database_owner
     useExisting = true
   })
 }
