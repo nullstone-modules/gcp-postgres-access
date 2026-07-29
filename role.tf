@@ -76,7 +76,10 @@ resource "restapi_object" "default_grants" {
 }
 
 locals {
-  superuser_role = "cloudsqlsuperuser"
+  // The managed superuser role differs by engine: `cloudsqlsuperuser` on Cloud SQL, `alloydbsuperuser` on
+  // AlloyDB. Datastore modules publish it as `db_superuser_role`.
+  // fallback to "cloudsqlsuperuser" for old postgres modules
+  superuser_role = try(data.ns_connection.postgres.outputs.db_superuser_role, "cloudsqlsuperuser")
 }
 
 resource "restapi_object" "superuser_role_member" {
