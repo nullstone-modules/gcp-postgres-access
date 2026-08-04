@@ -1,3 +1,6 @@
+# 0.1.4 (Aug 03, 2026)
+* Removed `settable_parameters`.
+
 # 0.1.3 (Aug 03, 2026)
 * Added `settable_parameters`, granting the app role `SET` on postgres configuration parameters that otherwise require a superuser context, such as `session_replication_role`.
   Restricted to an allowlist of session-scoped parameters; anything that can load code or bypass data integrity checks is excluded.
