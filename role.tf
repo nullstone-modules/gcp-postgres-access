@@ -75,6 +75,29 @@ resource "restapi_object" "default_grants" {
   ]
 }
 
+// Grants the app role `SET` on each configured parameter
+// No resources are created when `settable_parameters` is empty, so this is a no-op by default
+resource "restapi_object" "parameter_privileges" {
+  for_each = toset(var.settable_parameters)
+
+  path         = "/roles/${local.username}/parameter_privileges"
+  id_attribute = "parameter"
+  object_id    = each.value
+  force_new    = [local.username, each.value]
+  read_path    = "/roles/${local.username}/parameter_privileges/${each.value}"
+  update_path  = "/roles/${local.username}/parameter_privileges/${each.value}"
+  destroy_path = "/skip"
+
+  data = jsonencode({
+    role      = local.username
+    parameter = each.value
+  })
+
+  depends_on = [
+    restapi_object.role
+  ]
+}
+
 locals {
   // The managed superuser role differs by engine: `cloudsqlsuperuser` on Cloud SQL, `alloydbsuperuser` on
   // AlloyDB. Datastore modules publish it as `db_superuser_role`.
