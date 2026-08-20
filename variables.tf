@@ -14,6 +14,17 @@ variable "database_name" {
   default     = ""
 }
 
+variable "username" {
+  type        = string
+  default     = ""
+  description = <<EOF
+Override the name of the Postgres role created for this app.
+If left blank, a unique role name is generated. (Recommended)
+Warning: If two apps use the same role name, each app resets the role's password when it launches/updates,
+invalidating the other app's credentials and breaking its database access.
+EOF
+}
+
 variable "strict_password_policy" {
   type        = bool
   default     = true
@@ -32,7 +43,7 @@ data "ns_env_variables" "db_name" {
 }
 
 locals {
-  username       = local.resource_name
+  username       = coalesce(var.username, local.resource_name)
   database_name  = data.ns_env_variables.db_name.env_variables["DATABASE_NAME"]
   database_owner = replace(local.database_name, "postgres", "postgres_owner")
 }

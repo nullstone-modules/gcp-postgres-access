@@ -1,3 +1,6 @@
+# 0.1.5 (Aug 20, 2026)
+* Added `var.username` to override the generated Postgres role name. 
+
 # 0.1.4 (Aug 03, 2026)
 * Removed `settable_parameters`.
 
